@@ -1,5 +1,7 @@
 package heapsort;
 
+import java.util.Arrays;
+
 /**
  * Implements heap sort on an array using max-heapify() to maintain the max heap
  * property, build-max-heap() to create the heap, and heapsort() to sort the
@@ -12,8 +14,10 @@ public class HeapSort {
 
 	public static void main(String[] args) {
 		
-		int[] array = { 0, 16, 4, 10, 14, 7, 9, 3, 2, 8, 1 };
-		heapSort(array, array.length - 1);
+		int[] array = { 16, 4, 10, 14, 7, 9, 3, 2, 8, 1 };
+		int heapSize = array.length;
+		heapSort(array, array.length);
+		System.out.println(Arrays.toString(array));
 
 	}
 
@@ -51,12 +55,14 @@ public class HeapSort {
 		int l = leftChild(i);
 		int r = rightChild(i);
 		int largest = i;
-		if (l <= array.length && array[l] > array[i]) {
+		// check if left child is larger than parent
+		if (l <= array.length - 1 && array[l] > array[i]) {
 			largest = l;
 		} else {
 			largest = i;
 		}
-		if (r <= array.length && array[r] > array[largest]) {
+		// check if right child is larger than parent
+		if (r <= array.length - 1 && array[r] > array[largest]) {
 			largest = r;
 		}
 		if (largest != i) {
@@ -66,17 +72,17 @@ public class HeapSort {
 	}
 
 	private static void buildMaxHeap(int[] array) {
-		int heapSize = array.length;
-		for (int i = array.length / 2; i > 1; i--) {
+		//int heapSize = array.length;
+		for (int i = (array.length / 2) - 1; i > 1; i--) {
 			maxHeapify(array, i);
 		}
 	}
 
 	private static void heapSort(int[] array, int heapSize) {
 		buildMaxHeap(array);
-		for (int i = array.length; i > 1; i--) {
+		for (int i = array.length - 1; i >= 0; i--) {
 			int temp = array[i];
-			array[i] = array[1];
+			array[i] = array[0];
 			array[1] = temp;
 			heapSize--;
 			maxHeapify(array, 1);
