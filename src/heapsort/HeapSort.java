@@ -15,8 +15,9 @@ public class HeapSort {
 	public static void main(String[] args) {
 		
 		int[] array = { 16, 4, 10, 14, 7, 9, 3, 2, 8, 1 };
-		int heapSize = array.length;
-		heapSort(array, array.length);
+		buildMaxHeap(array);
+		System.out.println(Arrays.toString(array));
+		heapSort(array);
 		System.out.println(Arrays.toString(array));
 
 	}
@@ -66,26 +67,27 @@ public class HeapSort {
 			largest = r;
 		}
 		if (largest != i) {
+			int temp = array[i];
 			array[i] = array[largest];
+			array[largest] = temp;
 			maxHeapify(array, largest);
 		}
 	}
 
 	private static void buildMaxHeap(int[] array) {
 		//int heapSize = array.length;
-		for (int i = (array.length / 2) - 1; i > 1; i--) {
+		for (int i = (array.length / 2); i >= 0; i--) {
 			maxHeapify(array, i);
 		}
 	}
 
-	private static void heapSort(int[] array, int heapSize) {
+	private static void heapSort(int[] array) {
 		buildMaxHeap(array);
-		for (int i = array.length - 1; i >= 0; i--) {
+		for (int i = array.length - 1; i > 1; i--) {
 			int temp = array[i];
 			array[i] = array[0];
-			array[1] = temp;
-			heapSize--;
-			maxHeapify(array, 1);
+			array[0] = temp;
+			maxHeapify(array, 0);
 		}
 	}
 }
