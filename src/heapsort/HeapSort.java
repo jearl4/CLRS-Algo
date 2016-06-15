@@ -52,42 +52,44 @@ public class HeapSort {
 		return (2 * i) + 2;
 	}
 
-	private static void maxHeapify(int[] array, int i) {
+	private static void maxHeapify(int[] array, int i, int heapSize) {
 		int l = leftChild(i);
 		int r = rightChild(i);
 		int largest = i;
 		// check if left child is larger than parent
-		if (l <= array.length - 1 && array[l] > array[i]) {
+		if (l <= heapSize && array[l] > array[i]) {
 			largest = l;
 		} else {
 			largest = i;
 		}
 		// check if right child is larger than parent
-		if (r <= array.length - 1 && array[r] > array[largest]) {
+		if (r <= heapSize && array[r] > array[largest]) {
 			largest = r;
 		}
 		if (largest != i) {
 			int temp = array[i];
 			array[i] = array[largest];
 			array[largest] = temp;
-			maxHeapify(array, largest);
+			maxHeapify(array, largest, heapSize);
 		}
 	}
 
 	private static void buildMaxHeap(int[] array) {
-		//int heapSize = array.length;
-		for (int i = (array.length / 2); i >= 0; i--) {
-			maxHeapify(array, i);
+		int heapSize = array.length - 1;
+		for (int i = (heapSize / 2); i >= 0; i--) {
+			maxHeapify(array, i, heapSize);
 		}
 	}
 
 	private static void heapSort(int[] array) {
 		buildMaxHeap(array);
-		for (int i = array.length - 1; i > 1; i--) {
+		int heapSize = array.length - 1;
+		for (int i = heapSize; i > 0; i--) {
 			int temp = array[i];
 			array[i] = array[0];
 			array[0] = temp;
-			maxHeapify(array, 0);
+			heapSize--;
+			maxHeapify(array, 0, heapSize);
 		}
 	}
 }
