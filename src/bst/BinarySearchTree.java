@@ -20,10 +20,24 @@ class BSTNode {
 
 class BinarySearchTree {
 
-	BSTNode root;
+	static BSTNode root;
 
 	public static void main(String[] args) {
-
+		BSTNode node = new BSTNode(8);
+		BSTNode node2 = new BSTNode(3);
+		BSTNode node3 = new BSTNode(9);
+		BSTNode node4 = new BSTNode(2);
+		BSTNode node5 = new BSTNode(5);
+		BSTNode node6 = new BSTNode(7);
+		BSTNode node7 = new BSTNode(6);
+		treeInsert(node);
+		treeInsert(node2);
+		treeInsert(node3);
+		treeInsert(node4);
+		treeInsert(node5);
+		treeInsert(node6);
+		treeInsert(node7);
+		inOrderTraversal(node);
 	}
 
 	public static void inOrderTraversal(BSTNode node) {
@@ -111,12 +125,71 @@ class BinarySearchTree {
 		if (node.right != null) {
 			return treeMinimum(node.right);
 		}
-		
+		/*
+		 * if right subtree of node is empty. Node2 is the lowest ancestor of
+		 * node whose left child is also an ancestor of node.
+		 */
 		BSTNode node2 = node.parent;
 		while (node2 != null && node == node2.right) {
 			node = node2;
 			node2 = node2.parent;
 		}
 		return node2;
+	}
+
+	/**
+	 * takes newNode and modifies the tree and some attributes of newNode such
+	 * that newNode is inserted in the right place.
+	 * 
+	 * @param newNode
+	 * @param key
+	 */
+	public static void treeInsert(BSTNode newNode, int key) {
+		BSTNode node1 = null;
+		BSTNode node2 = root;
+		while (node2 != null) {
+			node1 = node2;
+			if (newNode.key < node1.key) {
+				node2 = node2.left;
+			} else {
+				node2 = node2.right;
+			}
+		}
+		newNode.parent = node1;
+		if (node1 == null) {
+			root = newNode;
+		} else if (newNode.key < node1.key) {
+			node1.left = newNode;
+		} else {
+			node1.right = newNode;
+		}
+	}
+
+	/**
+	 * takes newNode and modifies the tree and some attributes of newNode such
+	 * that newNode is inserted in the right place. Overloaded method that
+	 * doesn't need a key value as input
+	 * 
+	 * @param newNode
+	 */
+	public static void treeInsert(BSTNode newNode) {
+		BSTNode node1 = null;
+		BSTNode node2 = root;
+		while (node2 != null) {
+			node1 = node2;
+			if (newNode.key < node1.key) {
+				node2 = node2.left;
+			} else {
+				node2 = node2.right;
+			}
+		}
+		newNode.parent = node1;
+		if (node1 == null) {
+			root = newNode;
+		} else if (newNode.key < node1.key) {
+			node1.left = newNode;
+		} else {
+			node1.right = newNode;
+		}
 	}
 }
