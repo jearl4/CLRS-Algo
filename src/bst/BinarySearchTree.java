@@ -20,24 +20,25 @@ class BSTNode {
 
 class BinarySearchTree {
 
-	static BSTNode root;
-
+	BSTNode root;
+	
+	public BinarySearchTree(){
+		this.root = null;
+	}
+	
+	static BinarySearchTree t = new BinarySearchTree();
+	
 	public static void main(String[] args) {
 		BSTNode node = new BSTNode(8);
 		BSTNode node2 = new BSTNode(3);
 		BSTNode node3 = new BSTNode(9);
-		BSTNode node4 = new BSTNode(2);
-		BSTNode node5 = new BSTNode(5);
-		BSTNode node6 = new BSTNode(7);
-		BSTNode node7 = new BSTNode(6);
-		treeInsert(node);
-		treeInsert(node2);
-		treeInsert(node3);
-		treeInsert(node4);
-		treeInsert(node5);
-		treeInsert(node6);
-		treeInsert(node7);
-		inOrderTraversal(node);
+		treeInsert(t, node);
+		treeInsert(t, node2);
+		treeInsert(t, node3);
+		inOrderTraversal(t.root);
+		System.out.println("--------");
+		transplant(t, node, node3);
+		inOrderTraversal(t.root);
 	}
 
 	public static void inOrderTraversal(BSTNode node) {
@@ -144,52 +145,37 @@ class BinarySearchTree {
 	 * @param newNode
 	 * @param key
 	 */
-	public static void treeInsert(BSTNode newNode, int key) {
+	public static void treeInsert(BinarySearchTree t, BSTNode z) {
 		BSTNode node1 = null;
-		BSTNode node2 = root;
+		BSTNode node2 = t.root;
 		while (node2 != null) {
 			node1 = node2;
-			if (newNode.key < node1.key) {
+			if (z.key < node1.key) {
 				node2 = node2.left;
 			} else {
 				node2 = node2.right;
 			}
 		}
-		newNode.parent = node1;
+		z.parent = node1;
 		if (node1 == null) {
-			root = newNode;
-		} else if (newNode.key < node1.key) {
-			node1.left = newNode;
+			t.root = z;
+		} else if (z.key < node1.key) {
+			node1.left = z;
 		} else {
-			node1.right = newNode;
+			node1.right = z;
 		}
 	}
 
-	/**
-	 * takes newNode and modifies the tree and some attributes of newNode such
-	 * that newNode is inserted in the right place. Overloaded method that
-	 * doesn't need a key value as input
-	 * 
-	 * @param newNode
-	 */
-	public static void treeInsert(BSTNode newNode) {
-		BSTNode node1 = null;
-		BSTNode node2 = root;
-		while (node2 != null) {
-			node1 = node2;
-			if (newNode.key < node1.key) {
-				node2 = node2.left;
-			} else {
-				node2 = node2.right;
-			}
-		}
-		newNode.parent = node1;
-		if (node1 == null) {
-			root = newNode;
-		} else if (newNode.key < node1.key) {
-			node1.left = newNode;
+	public static void transplant(BinarySearchTree t, BSTNode node1, BSTNode node2) {
+		if (node1.parent == null) {
+			t.root = node2;
+		} else if (node1 == node1.parent.left) {
+			node1.parent.left = node2;
 		} else {
-			node1.right = newNode;
+			node1.parent.right = node2;
+		}
+		if (node2 != null) {
+			node2.parent = node1.parent;
 		}
 	}
 }
