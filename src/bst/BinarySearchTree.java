@@ -21,23 +21,26 @@ class BSTNode {
 class BinarySearchTree {
 
 	BSTNode root;
-	
-	public BinarySearchTree(){
+
+	public BinarySearchTree() {
 		this.root = null;
 	}
-	
+
 	static BinarySearchTree t = new BinarySearchTree();
-	
+
 	public static void main(String[] args) {
 		BSTNode node = new BSTNode(8);
 		BSTNode node2 = new BSTNode(3);
 		BSTNode node3 = new BSTNode(9);
+		BSTNode node4 = new BSTNode(20);
 		treeInsert(t, node);
 		treeInsert(t, node2);
 		treeInsert(t, node3);
 		inOrderTraversal(t.root);
 		System.out.println("--------");
-		transplant(t, node, node3);
+		treeInsert(t, node4);
+		// System.out.println("--------");
+		treeDelete(t, node3);
 		inOrderTraversal(t.root);
 	}
 
@@ -176,6 +179,25 @@ class BinarySearchTree {
 		}
 		if (node2 != null) {
 			node2.parent = node1.parent;
+		}
+	}
+
+	public static void treeDelete(BinarySearchTree t, BSTNode node) {
+		BSTNode y = new BSTNode();
+		if (node.left == null) {
+			transplant(t, node, node.right);
+		} else if (node.right == null) {
+			transplant(t, node, node.left);
+		} else {
+			y = treeMinimum(node.right);
+			if (y.parent != node) {
+				transplant(t, y, y.right);
+				y.right = node.right;
+				y.right.parent = y;
+			}
+			transplant(t, node, y);
+			y.left = node.left;
+			y.left.parent = y;
 		}
 	}
 }
