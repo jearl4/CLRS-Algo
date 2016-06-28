@@ -212,7 +212,7 @@ class BinarySearchTree {
 	/**
 	 * pivots around the link from node to node2. it makes node2 the new root of
 	 * the subtree with node as node2's left child and node2's left child as
-	 * node's right child.
+	 * node's right child. Runs in O(1) time.
 	 * 
 	 * @param t
 	 * @param node
