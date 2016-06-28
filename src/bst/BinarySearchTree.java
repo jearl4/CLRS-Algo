@@ -182,6 +182,14 @@ class BinarySearchTree {
 		}
 	}
 
+	/**
+	 * executes four possible cases: (lines 194-195) node has no left child.
+	 * (lines 196-197) node has a left child but no right child. (lines 199-208)
+	 * node has two children. Runs in O(h) time, where h = tree height.
+	 * 
+	 * @param t
+	 * @param node
+	 */
 	public static void treeDelete(BinarySearchTree t, BSTNode node) {
 		BSTNode y = new BSTNode();
 		if (node.left == null) {
@@ -199,5 +207,31 @@ class BinarySearchTree {
 			y.left = node.left;
 			y.left.parent = y;
 		}
+	}
+
+	/**
+	 * pivots around the link from node to node2. it makes node2 the new root of
+	 * the subtree with node as node2's left child and node2's left child as
+	 * node's right child.
+	 * 
+	 * @param t
+	 * @param node
+	 */
+	public static void leftRotate(BinarySearchTree t, BSTNode node) {
+		BSTNode node2 = node.right;
+		node.right = node2.left;
+		if (node2.left != null) {
+			node2.left.parent = node;
+		}
+		node2.parent = node.parent;
+		if (node.parent == null) {
+			t.root = node2;
+		} else if (node == node.parent.left) {
+			node.parent.left = node2;
+		} else {
+			node.parent.right = node2;
+		}
+		node2.left = node;
+		node.parent = node2;
 	}
 }
