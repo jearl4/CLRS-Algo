@@ -29,18 +29,25 @@ class BinarySearchTree {
 	static BinarySearchTree t = new BinarySearchTree();
 
 	public static void main(String[] args) {
-		BSTNode node = new BSTNode(8);
-		BSTNode node2 = new BSTNode(3);
-		BSTNode node3 = new BSTNode(9);
-		BSTNode node4 = new BSTNode(20);
+		BSTNode node = new BSTNode(2);
+		BSTNode node2 = new BSTNode(4);
+		BSTNode node3 = new BSTNode(1);
+		BSTNode node4 = new BSTNode(3);
+		BSTNode node5 = new BSTNode(5);
 		treeInsert(t, node);
 		treeInsert(t, node2);
 		treeInsert(t, node3);
+		treeInsert(t, node4);
+		treeInsert(t, node5);
 		inOrderTraversal(t.root);
 		System.out.println("--------");
-		treeInsert(t, node4);
+		// treeDelete(t, node3);
+		// inOrderTraversal(t.root);
 		// System.out.println("--------");
-		treeDelete(t, node3);
+		leftRotate(t, node);
+		inOrderTraversal(t.root);
+		System.out.println("--------");
+		rightRotate(t, node);
 		inOrderTraversal(t.root);
 	}
 
@@ -212,7 +219,8 @@ class BinarySearchTree {
 	/**
 	 * pivots around the link from node to node2. it makes node2 the new root of
 	 * the subtree with node as node2's left child and node2's left child as
-	 * node's right child. Runs in O(1) time.
+	 * node's right child. Right child of node can not be null. Runs in O(1)
+	 * time.
 	 * 
 	 * @param t
 	 * @param node
@@ -232,6 +240,24 @@ class BinarySearchTree {
 			node.parent.right = node2;
 		}
 		node2.left = node;
+		node.parent = node2;
+	}
+
+	public static void rightRotate(BinarySearchTree t, BSTNode node) {
+		BSTNode node2 = node.left;
+		node.left = node2.right;
+		if (node2.right != null) {
+			node2.right.parent = node;
+		}
+		node2.parent = node.parent;
+		if (node.parent == null) {
+			t.root = node2;
+		} else if (node == node.parent.right) {
+			node.parent.right = node2;
+		} else {
+			node.parent.left = node2;
+		}
+		node2.right = node;
 		node.parent = node2;
 	}
 }
