@@ -125,7 +125,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 			if (!isRed(node.right) && !isRed(node.right.left))
 				node = moveRedRight(node);
 			if (key.compareTo(node.key) == 0) {
-				node.val = get(h.right, min(h.right).key);
+				node.val = get(node.right, min(node.right).key);
 				node.key = min(node.right).key;
 				node.right = deleteMin(node.right);
 			} else {
