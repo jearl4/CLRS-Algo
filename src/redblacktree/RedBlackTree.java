@@ -1,56 +1,73 @@
 package redblacktree;
 
+import java.util.*;
+
 class RBNode {
 	int key;
-	String color;
+	boolean color;
 	RBNode parent;
 	RBNode left;
 	RBNode right;
-	
+
 	public RBNode() {
 
 	}
 
-	public RBNode(int key, String color) {
+	public RBNode(int key, boolean color) {
 		this.key = key;
 		this.parent = null;
 		this.left = null;
 		this.right = null;
-		this.color = null;
+		this.color = color;
 	}
+
 }
 
 class RedBlackTree {
-
-	RBNode root;
+	private static final boolean RED = true;
+	private static final boolean BLACK = false;
+	private static RBNode root;
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
+		RBNode node = new RBNode(10, RED);
 
 	}
 
-	public static void rBInsert(RedBlackTree t, RBNode node) {
-		RBNode nodeY = null;
-		RBNode nodeX = t.root;
-		while (nodeX != null) {
-			nodeY = nodeX;
-			if (node.key < nodeX.key) {
-				nodeX = nodeX.left;
-			} else {
-				nodeX = nodeX.right;
-			}
+	/**
+	 * is node red? False if null
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private static boolean isRed(RBNode node) {
+		if (node == null) {
+			return false;
 		}
-		node.parent = nodeY;
-		if (nodeY == null) {
-			t.root = node;
-		} else if (node.key < nodeY.key) {
-			nodeY.left = node;
-		}else{
-			nodeY.right = node;
+		return node.color == RED;
+	}
+
+	public static void rBInsert(int key) {
+		root = rBInsert(root, key);
+		root.color = BLACK;
+	}
+
+	// insert the node into the subtree rooted at node
+	private static RBNode rBInsert(RBNode node, int key) {
+		if (node == null) {
+			return new RBNode(key, RED);
 		}
-		node.left = null;
-		node.right = null;
-		node.color = "RED";
+		if (key < node.key) {
+			node.left = rBInsert(node.left, key);
+		} else if (key > node.key) {
+			node.right = rBInsert(node.right, key);
+		}
+		if (isRed(node.right) && !isRed(node.left))
+			node = leftRotate(node);
+		if (isRed(node.left) && isRed(node.left.left))
+			node = rightRotate(node);
+		if (isRed(node.left) && isRed(node.right))
+			flipColors(node);
+		return node;
 	}
 
 	/**
@@ -62,40 +79,27 @@ class RedBlackTree {
 	 * @param t
 	 * @param node
 	 */
-	public static void leftRotate(RedBlackTree t, RBNode node) {
-		RBNode node2 = node.right;
-		node.right = node2.left;
-		if (node2.left != null) {
-			node2.left.parent = node;
-		}
-		node2.parent = node.parent;
-		if (node.parent == null) {
-			t.root = node2;
-		} else if (node == node.parent.left) {
-			node.parent.left = node2;
-		} else {
-			node.parent.right = node2;
-		}
-		node2.left = node;
-		node.parent = node2;
+	private static RBNode leftRotate(RBNode node) {
+		RBNode x = node.left;
+		node.left = x.right;
+		x.right = node;
+		x.color = x.right.color;
+		x.right.color = RED;
+		return x;
 	}
 
-	public static void rightRotate(RedBlackTree t, RBNode node) {
-		RBNode node2 = node.left;
-		node.left = node2.right;
-		if (node2.right != null) {
-			node2.right.parent = node;
-		}
-		node2.parent = node.parent;
-		if (node.parent == null) {
-			t.root = node2;
-		} else if (node == node.parent.right) {
-			node.parent.right = node2;
-		} else {
-			node.parent.left = node2;
-		}
-		node2.right = node;
-		node.parent = node2;
+	private static RBNode rightRotate(RBNode node) {
+		RBNode x = node.left;
+		node.left = x.right;
+		x.right = node;
+		x.color = x.right.color;
+		x.right.color = RED;
+		return x;
 	}
 
+	private static void flipColors(RBNode node) {
+		node.color = !node.color;
+		node.left.color = !node.left.color;
+		node.right.color = !node.right.color;
+	}
 }
