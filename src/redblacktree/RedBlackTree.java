@@ -1,5 +1,7 @@
 package redblacktree;
 
+import java.util.NoSuchElementException;
+
 public class RedBlackTree<Key extends Comparable<Key>, Value> {
 	private static final boolean RED = true;
 	private static final boolean BLACK = false;
@@ -154,5 +156,27 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 			}
 		}
 		return null;
+	}
+
+	public Key min() {
+		if (isEmpty())
+			throw new NoSuchElementException("called min( with empty table");
+		return min(root).key;
+	}
+
+	private Node min(Node node) {
+		if (node.left == null) {
+			return node;
+		} else {
+			return min(node.left);
+		}
+	}
+	
+	/**
+	 * check if tree is empty
+	 * @return
+	 */
+	public boolean isEmpty() {
+		return root == null;
 	}
 }
