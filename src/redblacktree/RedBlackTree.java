@@ -1,3 +1,9 @@
+/**
+ * Creates a BST where no node has two red links connected to it. 
+ * Every path from root to null has the same number of black links. 
+ * Red links lean left.
+ * Based off the Princeton Algorithms code: http://algs4.cs.princeton.edu/33balanced/RedBlackBST.java.html
+ */
 package redblacktree;
 
 import java.util.NoSuchElementException;
@@ -22,6 +28,21 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 		}
 	}
 
+	/**
+	 * check if tree is empty
+	 * 
+	 * @return true if tree is empty
+	 */
+	public boolean isEmpty() {
+		return root == null;
+	}
+
+	/**
+	 * check if node is red
+	 * 
+	 * @param node
+	 * @return true if node is red
+	 */
 	private boolean isRed(Node node) {
 		if (node == null) {
 			return false;
@@ -47,6 +68,11 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 		return x;
 	}
 
+	/**
+	 * flip parent, left, and right node colors
+	 * 
+	 * @param node
+	 */
 	private void colorFlip(Node node) {
 		node.color = !node.color;
 		node.left.color = !node.left.color;
@@ -171,12 +197,5 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 			return min(node.left);
 		}
 	}
-	
-	/**
-	 * check if tree is empty
-	 * @return
-	 */
-	public boolean isEmpty() {
-		return root == null;
-	}
+
 }
