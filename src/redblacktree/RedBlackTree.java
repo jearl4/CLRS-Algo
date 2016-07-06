@@ -85,6 +85,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 		} else {
 			node.right = insert(node.right, key, value);
 		}
+		return node;
 	}
 
 	private Node moveRedLeft(Node node) {
@@ -133,5 +134,25 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 			}
 		}
 		return fixUp(node);
+	}
+
+	public Value get(Key key) {
+		if (key == null)
+			throw new NullPointerException("argument to get() is null");
+		return get(root, key);
+	}
+
+	private Value get(Node node, Key key) {
+		while (node != null) {
+			int cmp = key.compareTo(node.key);
+			if (cmp < 0) {
+				node = node.left;
+			} else if (cmp > 0) {
+				node = node.right;
+			} else {
+				return node.val;
+			}
+		}
+		return null;
 	}
 }
