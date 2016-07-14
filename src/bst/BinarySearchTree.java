@@ -39,28 +39,53 @@ class BinarySearchTree {
 		treeInsert(t, node3);
 		treeInsert(t, node4);
 		treeInsert(t, node5);
-		System.out.print("pre order traversal: ");
+		System.out.print("pre-order traversal: ");
 		preOrder(t.root);
-		System.out.print("\nin order traversal: ");
+		System.out.print("\nin-order traversal: ");
 		inOrderTraversal(t.root);
+		System.out.print("\npost-order traversal: ");
+		postOrder(t.root);
 		// treeDelete(t, node3);
 		// inOrderTraversal(t.root);
 		// System.out.println("--------");
 	}
 
-	public static void inOrderTraversal(BSTNode node) {
+	/**
+	 * traverse left subtree, root, then right subtree
+	 * 
+	 * @param node
+	 */
+	private static void inOrderTraversal(BSTNode node) {
 		if (node != null) {
 			inOrderTraversal(node.left);
-			System.out.print(node.key);
+			System.out.print(node.key + " ");
 			inOrderTraversal(node.right);
 		}
 	}
 
-	public static void preOrder(BSTNode node) {
+	/**
+	 * traverse root, left subtree, then right subtree
+	 * 
+	 * @param node
+	 */
+	private static void preOrder(BSTNode node) {
 		if (node != null) {
-			System.out.print(node.key);
+			System.out.print(node.key + " ");
 			preOrder(node.left);
 			preOrder(node.right);
+		}
+	}
+
+	/**
+	 * Traverse left subtree then right then root
+	 * 
+	 * @param node
+	 */
+	private static void postOrder(BSTNode node) {
+		if (node != null) {
+			postOrder(node.left);
+			postOrder(node.right);
+			System.out.print(node.key + " ");
 		}
 	}
 
