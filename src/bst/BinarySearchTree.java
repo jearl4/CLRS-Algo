@@ -58,7 +58,6 @@ class BinarySearchTree {
 
 	public static void preOrder(BSTNode node) {
 		if (node != null) {
-			//preOrder(node);
 			System.out.print(node.key);
 			preOrder(node.left);
 			preOrder(node.right);
