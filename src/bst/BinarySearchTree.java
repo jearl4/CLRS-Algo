@@ -20,13 +20,11 @@ class BSTNode {
 
 class BinarySearchTree {
 
-	BSTNode root;
+	static BSTNode root;
 
 	public BinarySearchTree() {
-		this.root = null;
+		BinarySearchTree.root = null;
 	}
-
-	static BinarySearchTree t = new BinarySearchTree();
 
 	public static void main(String[] args) {
 		BSTNode node = new BSTNode(2);
@@ -34,17 +32,18 @@ class BinarySearchTree {
 		BSTNode node3 = new BSTNode(1);
 		BSTNode node4 = new BSTNode(3);
 		BSTNode node5 = new BSTNode(5);
-		treeInsert(t, node);
-		treeInsert(t, node2);
-		treeInsert(t, node3);
-		treeInsert(t, node4);
-		treeInsert(t, node5);
+		treeInsert(node);
+		treeInsert(node2);
+		treeInsert(node3);
+		treeInsert(node4);
+		treeInsert(node5);
 		System.out.print("pre-order traversal: ");
-		preOrder(t.root);
+		preOrder(root);
 		System.out.print("\nin-order traversal: ");
-		inOrderTraversal(t.root);
+		inOrderTraversal(root);
 		System.out.print("\npost-order traversal: ");
-		postOrder(t.root);
+		postOrder(root);
+		System.out.println("\nheight of tree: " + height());
 		// treeDelete(t, node3);
 		// inOrderTraversal(t.root);
 		// System.out.println("--------");
@@ -155,6 +154,34 @@ class BinarySearchTree {
 	}
 
 	/**
+	 * Get the height, in terms of links, of the tree from the root
+	 * 
+	 * @return
+	 */
+	public static int height() {
+		return (height(root));
+	}
+
+	/**
+	 * get the height, in terms of links, of the tree. Starts at the node
+	 * parameter
+	 * 
+	 * @param node
+	 * @return
+	 */
+	private static int height(BSTNode node) {
+		// base case
+		if (node == null) {
+			return -1;
+		} else {
+			int leftSize = height(node.left);
+			int rightSize = height(node.right);
+			// use larger value + 1
+			return (Math.max(leftSize, rightSize) + 1);
+		}
+	}
+
+	/**
 	 * successor of node is the node2 with the smallest key greater than node
 	 * 
 	 * @param node
@@ -185,9 +212,9 @@ class BinarySearchTree {
 	 * @param newNode
 	 * @param key
 	 */
-	public static void treeInsert(BinarySearchTree t, BSTNode z) {
+	public static void treeInsert(BSTNode z) {
 		BSTNode node1 = null;
-		BSTNode node2 = t.root;
+		BSTNode node2 = root;
 		while (node2 != null) {
 			node1 = node2;
 			if (z.key < node1.key) {
@@ -198,7 +225,7 @@ class BinarySearchTree {
 		}
 		z.parent = node1;
 		if (node1 == null) {
-			t.root = z;
+			root = z;
 		} else if (z.key < node1.key) {
 			node1.left = z;
 		} else {
@@ -206,9 +233,9 @@ class BinarySearchTree {
 		}
 	}
 
-	public static void transplant(BinarySearchTree t, BSTNode node1, BSTNode node2) {
+	public static void transplant(BSTNode node1, BSTNode node2) {
 		if (node1.parent == null) {
-			t.root = node2;
+			root = node2;
 		} else if (node1 == node1.parent.left) {
 			node1.parent.left = node2;
 		} else {
@@ -230,17 +257,17 @@ class BinarySearchTree {
 	public static void treeDelete(BinarySearchTree t, BSTNode node) {
 		BSTNode y = new BSTNode();
 		if (node.left == null) {
-			transplant(t, node, node.right);
+			transplant(node, node.right);
 		} else if (node.right == null) {
-			transplant(t, node, node.left);
+			transplant(node, node.left);
 		} else {
 			y = treeMinimum(node.right);
 			if (y.parent != node) {
-				transplant(t, y, y.right);
+				transplant(y, y.right);
 				y.right = node.right;
 				y.right.parent = y;
 			}
-			transplant(t, node, y);
+			transplant(node, y);
 			y.left = node.left;
 			y.left.parent = y;
 		}
@@ -263,7 +290,7 @@ class BinarySearchTree {
 		}
 		node2.parent = node.parent;
 		if (node.parent == null) {
-			t.root = node2;
+			root = node2;
 		} else if (node == node.parent.left) {
 			node.parent.left = node2;
 		} else {
@@ -281,7 +308,7 @@ class BinarySearchTree {
 		}
 		node2.parent = node.parent;
 		if (node.parent == null) {
-			t.root = node2;
+			root = node2;
 		} else if (node == node.parent.right) {
 			node.parent.right = node2;
 		} else {
