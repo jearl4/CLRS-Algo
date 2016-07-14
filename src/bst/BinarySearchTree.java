@@ -39,23 +39,29 @@ class BinarySearchTree {
 		treeInsert(t, node3);
 		treeInsert(t, node4);
 		treeInsert(t, node5);
+		System.out.print("pre order traversal: ");
+		preOrder(t.root);
+		System.out.print("\nin order traversal: ");
 		inOrderTraversal(t.root);
-		System.out.println("--------");
 		// treeDelete(t, node3);
 		// inOrderTraversal(t.root);
 		// System.out.println("--------");
-		leftRotate(t, node);
-		inOrderTraversal(t.root);
-		System.out.println("--------");
-		rightRotate(t, node);
-		inOrderTraversal(t.root);
 	}
 
 	public static void inOrderTraversal(BSTNode node) {
 		if (node != null) {
 			inOrderTraversal(node.left);
-			System.out.println(node.key);
+			System.out.print(node.key);
 			inOrderTraversal(node.right);
+		}
+	}
+
+	public static void preOrder(BSTNode node) {
+		if (node != null) {
+			//preOrder(node);
+			System.out.print(node.key);
+			preOrder(node.left);
+			preOrder(node.right);
 		}
 	}
 
