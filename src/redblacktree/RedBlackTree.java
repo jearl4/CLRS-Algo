@@ -19,7 +19,7 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 		private Key key;
 		private Value val;
 		private Node left, right;
-		private boolean color;
+		private boolean color; // color of the link to parent node
 
 		Node(Key key, Value val) {
 			this.key = key;
@@ -196,6 +196,62 @@ public class RedBlackTree<Key extends Comparable<Key>, Value> {
 		} else {
 			return min(node.left);
 		}
+	}
+
+	private Node deleteMin(Node node) {
+		if (node.left == null) {
+			return null;
+		}
+		if (!isRed(node.left) && !isRed(node.left.left))
+			node = moveRedLeft(node);
+		node.left = deleteMin(node.left);
+		return balance(node);
+	}
+
+	private Node balance(Node node) {
+		// assert (h != null);
+
+		if (isRed(node.right))
+			node = rotateLeft(node);
+		if (isRed(node.left) && isRed(node.left.left))
+			node = rotateRight(node);
+		if (isRed(node.left) && isRed(node.right))
+			colorFlip(node);
+
+		node.size = size(node.left) + size(node.right) + 1;
+		return node;
+	}
+
+	public int rank(Key key) {
+		if (key == null)
+			throw new NullPointerException("argument to rank() is null");
+		return rank(key, root);
+	}
+
+	private int rank(Key key, Node node) {
+		if (node == null)
+			return 0;
+		int cmp = key.compareTo(node.key);
+		if (cmp < 0)
+			return rank(key, node.left);
+		else if (cmp > 0)
+			return 1 + size(node.left) + rank(key, node.right);
+		else
+			return size(node.left);
+	}
+
+	public int size(Key lo, Key hi) {
+		if (lo == null)
+			throw new NullPointerException("first argument to size() is null");
+		if (hi == null)
+			throw new NullPointerException("second argument to size() is null");
+
+		if (lo.compareTo(hi) > 0)
+			return 0;
+		if (contains(hi))
+			return rank(hi) - rank(lo) + 1;
+		else
+			return rank(hi) - rank(lo);
 	}
 
 }
