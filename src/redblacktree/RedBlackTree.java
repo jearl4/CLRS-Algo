@@ -21,7 +21,7 @@ class RBNode {
 		this.color = color;
 	}
 
-	public RBNode(int key, RBNode parent, RBNode left, RBNode right, boolean color){
+	public RBNode(int key, RBNode parent, RBNode left, RBNode right, boolean color) {
 		this.key = key;
 		this.parent = parent;
 		this.left = left;
@@ -33,4 +33,7 @@ class RBNode {
 
 class RedBlackTree {
 	
+	private void insert() {
+
+	}
 }
