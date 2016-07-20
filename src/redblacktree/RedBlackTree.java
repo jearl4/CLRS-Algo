@@ -89,4 +89,79 @@ class RedBlackTree {
 		node.color = RED;
 		fixUp(node);
 	}
+
+	private void fixUp(RBNode node) {
+		RBNode y;
+		while (node.parent.color == RED) {
+			if (node.parent == node.parent.parent.left) {
+				y = node.parent.parent.right;
+				// case 1 y is red. Change to black
+				if (y.color == RED) {
+					node.parent.color = BLACK;
+					y.color = BLACK;
+					node.parent.parent.color = RED;
+					node = node.parent.parent;
+					// case 2 y is black and node is right child. rotate into
+					// case 3
+				} else if (node == node.parent.right) {
+					node = node.parent;
+					leftRotate(node);
+				}
+				// case 3 y is black and node is left child
+				node.parent.color = BLACK;
+				node.parent.parent.color = RED;
+				rightRotate(node.parent.parent);
+			} else if (node.parent == node.parent.parent.right) {
+				y = node.parent.parent.right;
+				// case 1 y is red
+				if (y.color == RED) {
+					node.parent.color = BLACK;
+					y.color = BLACK;
+					node.parent.parent.color = RED;
+					node = node.parent.parent;
+					// case 2 y is black node
+				} else if (node == node.parent.left) {
+					node = node.parent;
+					rightRotate(node);
+				} // case 3 y is black
+				node.parent.color = BLACK;
+				node.parent.parent.color = RED;
+				leftRotate(node.parent.parent);
+			}
+		}
+	}
+
+	private void leftRotate(RBNode node) {
+		RBNode y = node.right;
+		node.right = y.left;
+		if (y.left != nil)
+			y.left.parent = node;
+		y.parent = node.parent;
+		if (node.parent == nil) {
+			root = y;
+		} else if (node == node.parent.left) {
+			node.parent.left = y;
+		} else {
+			node.parent.right = y;
+		}
+		y.left = node;
+		node.parent = y;
+	}
+	
+	private void rightRotate(RBNode node) {
+		RBNode y = node.left;
+		node.right = y.right;
+		if (y.right != nil)
+			y.right.parent = node;
+		y.parent = node.parent;
+		if (node.parent == nil) {
+			root = y;
+		} else if (node == node.parent.right) {
+			node.parent.right = y;
+		} else {
+			node.parent.left = y;
+		}
+		y.right = node;
+		node.parent = y;
+	}
 }
