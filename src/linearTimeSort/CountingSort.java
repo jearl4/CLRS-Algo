@@ -2,6 +2,19 @@ package linearTimeSort;
 
 import java.util.Arrays;
 
+/**
+ * When k equals n the sort runs in O(n) time, or O(k + n). It beats the lower bound of (n lg
+ * n) due to the lack of comparisons and departure from the comparison sort
+ * model.
+ * 
+ * Counting sort is also stable, meaning that which ever numbers appear first in
+ * the input come first in the output array. This allows satellite data to be
+ * moved around with the elements being sorted.
+ * 
+ * @author J.T. Earl
+ *
+ */
+
 public class CountingSort {
 
 	public static void main(String[] args) {
