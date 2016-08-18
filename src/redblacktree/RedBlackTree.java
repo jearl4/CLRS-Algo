@@ -43,12 +43,17 @@ class RedBlackTree {
 
 	private static final boolean RED = true;
 	private static final boolean BLACK = false;
-	private static RBNode root;
+	private static RBNode root = new RBNode(5, BLACK);
 
-	protected final RBNode nil = new RBNode(BLACK);
+	protected final static RBNode nil = new RBNode(BLACK);
 
 	public static void main(String[] args) {
-
+		RBNode r1 = new RBNode(3, RED);
+		RBNode b1 = new RBNode(9, BLACK);
+		insert(root);
+		insert(r1);
+		insert(b1);
+		inOrderTraversal(root);
 	}
 
 	/**
@@ -58,14 +63,14 @@ class RedBlackTree {
 	 * @param node
 	 * @return
 	 */
-	private boolean isRed(RBNode node) {
+	private static boolean isRed(RBNode node) {
 		if (node == null) {
 			return false;
 		}
 		return node.color == RED;
 	}
 
-	private void insert(RBNode node) {
+	private static void insert(RBNode node) {
 		RBNode y = nil;
 		RBNode x = root;
 		while (x != nil) {
@@ -90,7 +95,7 @@ class RedBlackTree {
 		fixUp(node);
 	}
 
-	private void fixUp(RBNode node) {
+	private static void fixUp(RBNode node) {
 		RBNode y;
 		while (node.parent.color == RED) {
 			if (node.parent == node.parent.parent.left) {
@@ -131,7 +136,7 @@ class RedBlackTree {
 		}
 	}
 
-	private void leftRotate(RBNode node) {
+	private static void leftRotate(RBNode node) {
 		RBNode y = node.right;
 		node.right = y.left;
 		if (y.left != nil)
@@ -147,8 +152,8 @@ class RedBlackTree {
 		y.left = node;
 		node.parent = y;
 	}
-	
-	private void rightRotate(RBNode node) {
+
+	private static void rightRotate(RBNode node) {
 		RBNode y = node.left;
 		node.right = y.right;
 		if (y.right != nil)
@@ -163,5 +168,13 @@ class RedBlackTree {
 		}
 		y.right = node;
 		node.parent = y;
+	}
+
+	public static void inOrderTraversal(RBNode node) {
+		if (node != null) {
+			inOrderTraversal(node.left);
+			System.out.println(node.key);
+			inOrderTraversal(node.right);
+		}
 	}
 }
