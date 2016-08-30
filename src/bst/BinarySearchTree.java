@@ -27,16 +27,24 @@ class BinarySearchTree {
 	}
 
 	public static void main(String[] args) {
-		BSTNode node = new BSTNode(2);
-		BSTNode node2 = new BSTNode(4);
-		BSTNode node3 = new BSTNode(1);
-		BSTNode node4 = new BSTNode(3);
-		BSTNode node5 = new BSTNode(5);
+		BSTNode node = new BSTNode(20);
+		BSTNode node2 = new BSTNode(3);
+		BSTNode node3 = new BSTNode(50);
+		BSTNode node4 = new BSTNode(2);
+		BSTNode node5 = new BSTNode(15);
+		BSTNode node6 = new BSTNode(21);
+		BSTNode node7 = new BSTNode(60);
+		BSTNode node8 = new BSTNode(12);
+		BSTNode node9 = new BSTNode(26);
 		treeInsert(node);
 		treeInsert(node2);
 		treeInsert(node3);
 		treeInsert(node4);
 		treeInsert(node5);
+		treeInsert(node6);
+		treeInsert(node7);
+		treeInsert(node8);
+		treeInsert(node9);
 		System.out.print("pre-order traversal: ");
 		preOrder(root);
 		System.out.print("\nin-order traversal: ");
@@ -44,9 +52,8 @@ class BinarySearchTree {
 		System.out.print("\npost-order traversal: ");
 		postOrder(root);
 		System.out.println("\nheight of tree: " + height());
-		// treeDelete(t, node3);
-		// inOrderTraversal(t.root);
-		// System.out.println("--------");
+		System.out.println("Max value is: " + treeMaximum());
+		System.out.println("Min value is: " + treeMinimum());
 	}
 
 	/**
@@ -126,27 +133,41 @@ class BinarySearchTree {
 		}
 		return node;
 	}
-
+	
+	/**
+	 * allows access to private minimum method
+	 */
+	public static int treeMinimum(){
+		return (treeMinimum(root).key);
+	}
+	
 	/**
 	 * follows the left child pointers from root until there is a null
 	 * 
 	 * @param node
 	 * @return
 	 */
-	public static BSTNode treeMinimum(BSTNode node) {
+	private static BSTNode treeMinimum(BSTNode node) {
 		while (node.left != null) {
 			node = node.left;
 		}
 		return node;
 	}
-
+	
+	/**
+	 * allows access to the private maximum method
+	 */
+	public static int treeMaximum(){
+		return (treeMaximum(root).key);
+	}
+	
 	/**
 	 * follows the right child pointers until there is a null
 	 * 
 	 * @param node
 	 * @return
 	 */
-	public static BSTNode treeMaximum(BSTNode node) {
+	private static BSTNode treeMaximum(BSTNode node) {
 		while (node.right != null) {
 			node = node.right;
 		}
@@ -204,7 +225,7 @@ class BinarySearchTree {
 		}
 		return node2;
 	}
-
+	
 	/**
 	 * takes newNode and modifies the tree and some attributes of newNode such
 	 * that newNode is inserted in the right place.
